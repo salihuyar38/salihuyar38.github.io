@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building an Elastic Task Queue with MPI | Salih Uyar</title>
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/tooplate-style.css">
+
+    <style>
+        body {
+            background: #fff;
+            color: #333;
+        }
+
+        .blog-container {
+            max-width: 900px;
+            margin: 80px auto;
+            padding: 20px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        .date {
+            color: gray;
+            margin-bottom: 30px;
+        }
+
+        section {
+            margin-top: 40px;
+        }
+
+        .github-btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background: #222;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .github-btn:hover {
+            color: white;
+            opacity: 0.9;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="blog-container">
+
+        <a href="../index.html" class="back-link">
+            ← Back to Home
+        </a>
+
+        <h1>Building an Elastic Task Queue with MPI</h1>
+
+        <p class="date">July 2025</p>
+
+        <hr>
+
+        <section>
+            <h2>Introduction</h2>
+
+            <p>
+                High-Performance Computing (HPC) refers to the use of multiple
+                computing resources working together to solve computational
+                problems that are too large or time-consuming for a single
+                machine. One of the most common programming models in HPC
+                is the Message Passing Interface (MPI), which allows
+                processes running on different nodes to communicate and
+                coordinate their work.
+            </p>
+
+            <p>
+                Real-world HPC systems are significantly more complex than
+                the project presented here. The goal of this project was
+                to explore concepts such as dynamic task distribution,
+                load balancing, and message passing at a beginner-friendly level.
+            </p>
+        </section>
+
+        <section>
+            <h2>Project Overview</h2>
+
+            <p>
+                In this project, I implemented a lightweight elastic task queue
+                using MPI. A master process dynamically distributes tasks
+                to worker processes during runtime. Workers request tasks,
+                process them, and return their results to the master.
+            </p>
+
+            <p>
+                This approach improves load balancing because faster workers
+                naturally process more tasks than slower workers.
+            </p>
+        </section>
+
+        <section>
+            <h2>Architecture</h2>
+
+            <pre>
+Master Process
+      |
+      |
+      v
++-------------------+
+|     Task Queue    |
++-------------------+
+      |
+      +------> Worker 1
+      |
+      +------> Worker 2
+      |
+      +------> Worker N
+            </pre>
+        </section>
+
+        <section>
+            <h2>Failure Experiment</h2>
+
+            <p>
+                To better understand distributed systems, I also experimented
+                with terminating a worker process during execution and observed
+                how the application behaved under failure conditions.
+            </p>
+        </section>
+
+        <section>
+            <h2>What I Learned</h2>
+
+            <ul>
+                <li>MPI communication fundamentals</li>
+                <li>Master-worker architectures</li>
+                <li>Dynamic task distribution</li>
+                <li>Load balancing concepts</li>
+                <li>Basic failure scenarios in distributed systems</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Source Code</h2>
+
+            <a class="github-btn"
+               href="https://github.com/salihuyar38/hpc-elastic-task-queue"
+               target="_blank">
+                View on GitHub
+            </a>
+        </section>
+
+    </div>
+</div>
+
+</body>
+</html>
