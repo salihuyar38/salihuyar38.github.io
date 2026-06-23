@@ -223,22 +223,86 @@ a:hover, a:active, a:focus {
   Home section              
 -----------------------------------------*/
 
-#home {
-  background: url('../images/home-bg.jpg') 50% 0 repeat-y fixed;
-  background-size: cover;
-  background-position: center center;
-  display: -webkit-box;
-  display: -webkit-flex;
-   display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-   align-items: center;
+/*---------------------------------------
+  Home section (SPLIT LAYOUT)
+-----------------------------------------*/
+
+/*---------------------------------------
+  HOME – 50 / 50 CLEAN SPLIT
+-----------------------------------------*/
+
+#home{
   height: 100vh;
-  position: relative;
-  text-align: right;
+  padding: 0;
 }
+
+.home-split{
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+/* SOL FOTO (%50) */
+.home-left{
+  width: 50%;
+  background-image: url('../images/salih.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+/* SAĞ METİN (%50) */
+.home-right{
+  width: 50%;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+}
+
+/* içerik ortalaması */
+.home-content{
+  padding-left: 120px;
+  padding-right: 80px;
+}
+
+#home h1{
+  color: #2b2b2b;
+}
+
+#home p{
+  color: #696969;
+  margin-top: 16px;
+}
+
+/*---------------------------------------
+  MOBILE
+-----------------------------------------*/
+
+@media (max-width: 768px){
+  #home{
+    height: auto;
+  }
+
+  .home-split{
+    flex-direction: column;
+  }
+
+  .home-left,
+  .home-right{
+    width: 100%;
+  }
+
+  .home-left{
+    height: 55vh;
+  }
+
+  .home-content{
+    padding: 40px 24px;
+    text-align: center;
+  }
+}
+
+
 
 
 
@@ -782,4 +846,35 @@ footer p {
 		padding:40px;
 		padding-top:0;
 	}
+}
+/*---------------------------------------
+  HOME HERO NAV BUTTONS
+-----------------------------------------*/
+
+.home-nav{
+  margin-top: 40px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Daha küçük hero butonları */
+.section-btn.small-btn{
+  padding: 14px 26px;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  margin-top: 0; /* Discover more’dan kalan boşluğu sıfırla */
+}
+
+/* Hover uyumu */
+.section-btn.small-btn:hover{
+  background: #ffffff;
+  color: #000000;
+}
+
+/* Mobile: ortala */
+@media (max-width: 768px){
+  .home-nav{
+    justify-content: center;
+  }
 }
