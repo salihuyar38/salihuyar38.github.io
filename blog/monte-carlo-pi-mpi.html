@@ -253,31 +253,59 @@ Here, <code>p</code> is the number of MPI processes.
 </section>
 
 <section>
+
 <h2>Results</h2>
 
 <p>
 The benchmark results were written to a CSV file and analyzed using Python.
-The main goal was to observe how runtime changes as the number of MPI
-processes increases.
+The figures below show the runtime, speedup, and efficiency of the MPI
+implementation for different numbers of processes.
 </p>
+
+<h3>Runtime</h3>
+
+<div style="text-align:center; margin:30px 0;">
+    <img
+        src="../images/runtime.png"
+        alt="Runtime Plot"
+        style="max-width:100%; border-radius:8px;">
+</div>
 
 <p>
-The plots below can be generated from the benchmark script:
+As expected, the runtime decreases as more MPI processes participate in
+the computation.
 </p>
 
-<ul>
-    <li><code>runtime.png</code></li>
-    <li><code>speedup.png</code></li>
-    <li><code>efficiency.png</code></li>
-</ul>
+<h3>Speedup</h3>
+
+<div style="text-align:center; margin:30px 0;">
+    <img
+        src="../images/speedup.png"
+        alt="Speedup Plot"
+        style="max-width:100%; border-radius:8px;">
+</div>
 
 <p>
-In general, the Monte Carlo method scales well because most of the work is
-independent. Communication happens mainly once at the end through
-<code>MPI_Reduce</code>, so the communication overhead is relatively small.
+The speedup approaches the ideal scaling line, demonstrating that Monte
+Carlo simulation is highly parallelizable.
 </p>
+
+<h3>Efficiency</h3>
+
+<div style="text-align:center; margin:30px 0;">
+    <img
+        src="../images/efficiency.png"
+        alt="Efficiency Plot"
+        style="max-width:100%; border-radius:8px;">
+</div>
+
+<p>
+Efficiency decreases slightly as more processes are added due to
+communication overhead and synchronization costs, but remains relatively
+high because the workload is largely independent.
+</p>
+
 </section>
-
 <section>
 <h2>What I Implemented</h2>
 
