@@ -96,190 +96,78 @@ and evaluate the performance benefits of parallel computation.
 </section>
 
 <section>
+
 <h2>Mathematical Background</h2>
 
 <p>
-The experiment considers a unit circle centered at the origin and enclosed
-by a square with side length 2.
+The Monte Carlo method estimates π using random sampling. Instead of
+calculating π directly through geometry, we generate a large number of
+random points inside a square and determine how many of them fall inside
+an inscribed circle.
 </p>
 
 <p>
-For each randomly generated point <code>(x, y)</code>, the point lies inside
-the circle if:
+The following diagram illustrates the underlying idea:
 </p>
 
-<pre>
-x² + y² ≤ 1
-</pre>
+<div style="text-align:center; margin:30px 0;">
+    <img
+        src="../images/monte.png"
+        alt="Monte Carlo Pi Approximation"
+        style="max-width:100%; border-radius:8px;">
 
-<p>
-The ratio between the area of the circle and the area of the square is:
-</p>
-
-<pre>
-circle area / square area = π / 4
-</pre>
-
-<p>
-Therefore, π can be approximated as:
-</p>
-
-<pre>
-π ≈ 4 × (points inside circle / total points)
-</pre>
-
-<p>
-As the number of generated points increases, the approximation becomes more
-accurate.
-</p>
-</section>
-
-<section>
-<h2>Serial Implementation</h2>
-
-<p>
-The serial implementation generates all random points on a single process
-and counts how many points fall inside the circle. This version serves as
-the baseline for evaluating the performance of the parallel implementation.
-</p>
-</section>
-
-<section>
-<h2>MPI Parallelization</h2>
-
-<p>
-The MPI version distributes the total number of random points across multiple
-processes. Each process computes its own local count of points inside the
-circle.
-</p>
-
-<p>
-After the local computations are finished, the partial results are combined
-using <code>MPI_Reduce</code>. The root process then computes the final
-approximation of π.
-</p>
-
-<pre>
-Total points
-     |
-     v
-+-------------------+
-| Split among ranks |
-+-------------------+
-     |
-     +------> Rank 0 computes local count
-     |
-     +------> Rank 1 computes local count
-     |
-     +------> Rank 2 computes local count
-     |
-     +------> Rank N computes local count
-     |
-     v
-MPI_Reduce sums all local counts
-     |
-     v
-Root process computes π
-</pre>
-</section>
-
-<section>
-<h2>Performance Metrics</h2>
-
-<p>
-To evaluate the parallel implementation, I measured runtime, computation
-time, reduction time, approximation error, speedup, and parallel efficiency.
-</p>
-
-<pre>
-Speedup(p) = T_serial / T_parallel(p)
-
-Efficiency(p) = Speedup(p) / p
-</pre>
-
-<p>
-Here, <code>p</code> is the number of MPI processes.
-</p>
-</section>
-
-<section>
-<h2>Experimental Setup</h2>
-
-<ul>
-    <li>Language: C</li>
-    <li>Parallel programming model: MPI</li>
-    <li>Number of random points: 100,000,000</li>
-    <li>Tested process counts: 1, 2, 4, and 8</li>
-    <li>Analysis: Python with pandas and matplotlib</li>
-</ul>
-</section>
-
-<section>
-<h2>Results</h2>
-
-<p>
-The benchmark results were written to a CSV file and analyzed using Python.
-The main goal was to observe how runtime changes as the number of MPI
-processes increases.
-</p>
-
-<p>
-The plots below can be generated from the benchmark script:
-</p>
-
-<ul>
-    <li><code>runtime.png</code></li>
-    <li><code>speedup.png</code></li>
-    <li><code>efficiency.png</code></li>
-</ul>
-
-<p>
-In general, the Monte Carlo method scales well because most of the work is
-independent. Communication happens mainly once at the end through
-<code>MPI_Reduce</code>, so the communication overhead is relatively small.
-</p>
-</section>
-
-<section>
-<h2>What I Implemented</h2>
-
-<ul>
-    <li>A serial Monte Carlo π approximation in C</li>
-    <li>An MPI-parallel version using multiple processes</li>
-    <li>Work distribution across MPI ranks</li>
-    <li>Result aggregation using <code>MPI_Reduce</code></li>
-    <li>Runtime measurement using <code>MPI_Wtime</code></li>
-    <li>A Bash script for automated benchmarking</li>
-    <li>A Python script for analyzing speedup and efficiency</li>
-</ul>
-</section>
-
-<section>
-<h2>What I Learned</h2>
-
-<ul>
-    <li>How to structure a simple MPI program</li>
-    <li>How to distribute independent work across processes</li>
-    <li>How collective communication works with <code>MPI_Reduce</code></li>
-    <li>How to measure runtime, speedup, and efficiency</li>
-    <li>Why embarrassingly parallel problems can scale efficiently</li>
-</ul>
-</section>
-
-<section>
-<h2>Source Code</h2>
-
-<a
-class="github-btn"
-target="_blank"
-href="https://github.com/salihuyar38">
-View on GitHub
-</a>
-
-</section>
-
-</div>
+    <p style="font-size:14px; color:gray; margin-top:10px;">
+        Figure 1: Monte Carlo approximation of π.
+        Source:
+        <a target="_blank"
+           href="https://www.youtube.com/watch?v=lY4rSeX8IL4">
+           Original image
+        </a>
+    </p>
 </div>
 
-</body>
-</html>
+<p>
+The circle has radius 1 and is enclosed by a square with side length 2.
+Therefore:
+</p>
+
+<pre>
+Area(circle) = π × 1² = π
+
+Area(square) = 2 × 2 = 4
+</pre>
+
+<p>
+The ratio between both areas is:
+</p>
+
+<pre>
+Area(circle) / Area(square) = π / 4
+</pre>
+
+<p>
+If random points are distributed uniformly across the square, the
+fraction of points that fall inside the circle approximates the same
+ratio:
+</p>
+
+<pre>
+Points inside circle / Total points ≈ π / 4
+</pre>
+
+<p>
+Rearranging the equation gives:
+</p>
+
+<pre>
+π ≈ 4 × (Points inside circle / Total points)
+</pre>
+
+<p>
+As the number of generated points increases, the approximation converges
+towards the true value of π. This makes the Monte Carlo method a simple
+but effective example of probabilistic numerical computation and a good
+candidate for parallelization.
+</p>
+
+</section>
