@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Dynamic Resource Management in HPC with DynRM | Salih Uyar</title>
+
+    <title>Making HPC Applications Elastic with DynRM and Process Sets | Salih Uyar</title>
+
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/tooplate-style.css">
 
@@ -22,26 +23,17 @@
 
         .date {
             color: gray;
+            margin-bottom: 10px;
+        }
+
+        .paper-note {
+            color: gray;
+            font-size: 14px;
             margin-bottom: 30px;
         }
 
         section {
             margin-top: 40px;
-        }
-
-        .paper-btn {
-            display: inline-block;
-            padding: 12px 20px;
-            background: #222;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
-        .paper-btn:hover {
-            color: white;
-            opacity: 0.9;
-            text-decoration: none;
         }
 
         pre {
@@ -82,7 +74,14 @@
 
 <p class="date">September 2026</p>
 
+<p class="paper-note">
+Based on the paper
+<em>Dynamic Resource Management in HPC Systems using Dynamic Processes with PSets</em>
+by Dominik Huber et al.
+</p>
+
 <hr>
+
 
 <section>
 
@@ -118,8 +117,8 @@ Job A:
 </pre>
 
 <p>
-The real computational demand of the application might instead look more
-like this:
+The actual computational demand of the application might instead look
+more like this:
 </p>
 
 <pre>
@@ -136,13 +135,20 @@ This is where <strong>Dynamic Resource Management</strong>, or
 </p>
 
 <p>
-The paper
+This article is based on the paper
 <em>Dynamic Resource Management in HPC Systems using Dynamic Processes with PSets</em>
-investigates how the amount of resources assigned to HPC applications
-can be changed dynamically while those applications are already running.
+by Dominik Huber et al.
+The goal of this blog post is to explain the main ideas, architecture,
+and results of the paper in a more accessible and practical way.
+</p>
+
+<p>
+The paper investigates how resources assigned to HPC applications can
+be changed dynamically while those applications are already running.
 </p>
 
 </section>
+
 
 <section>
 
@@ -195,6 +201,7 @@ turnaround time.
 
 </section>
 
+
 <section>
 
 <h2>Why Dynamic HPC Is Difficult</h2>
@@ -238,11 +245,11 @@ However, this immediately introduces several questions:
 </p>
 
 <ul>
-<li>Who creates Rank 4 and Rank 5?</li>
-<li>How does the MPI application discover the new processes?</li>
-<li>How are MPI communicators updated?</li>
-<li>What happens to data distributed between the existing ranks?</li>
-<li>Who decides whether adding the new processes is actually beneficial?</li>
+    <li>Who creates Rank 4 and Rank 5?</li>
+    <li>How does the MPI application discover the new processes?</li>
+    <li>How are MPI communicators updated?</li>
+    <li>What happens to data distributed between the existing ranks?</li>
+    <li>Who decides whether adding new processes is actually beneficial?</li>
 </ul>
 
 <p>
@@ -273,6 +280,7 @@ production HPC systems.
 </p>
 
 </section>
+
 
 <section>
 
@@ -365,6 +373,7 @@ should be applied.
 
 </section>
 
+
 <section>
 
 <h2>What Is DynRM?</h2>
@@ -406,6 +415,7 @@ DynRM internally represents the HPC system using three main graphs:
 
 </section>
 
+
 <section>
 
 <h2>The Task Graph</h2>
@@ -430,6 +440,7 @@ complete workflows containing multiple dependent tasks.
 </p>
 
 </section>
+
 
 <section>
 
@@ -472,6 +483,7 @@ of physical resources.
 </p>
 
 </section>
+
 
 <section>
 
@@ -526,6 +538,7 @@ Where can those processes run?
 
 </section>
 
+
 <section>
 
 <h2>How DynRM Fits into the HPC Software Stack</h2>
@@ -555,6 +568,7 @@ paper combines several important HPC components.
 Each component has a different responsibility.
 </p>
 
+
 <h3>DynRM</h3>
 
 <p>
@@ -566,11 +580,12 @@ It reasons about questions such as:
 </p>
 
 <ul>
-<li>Which jobs are currently running?</li>
-<li>Which resources are available?</li>
-<li>Which applications can grow or shrink?</li>
-<li>Would changing a resource allocation improve system performance?</li>
+    <li>Which jobs are currently running?</li>
+    <li>Which resources are available?</li>
+    <li>Which applications can grow or shrink?</li>
+    <li>Would changing a resource allocation improve system performance?</li>
 </ul>
+
 
 <h3>PRRTE</h3>
 
@@ -597,6 +612,7 @@ PRRTE
 "I will create and manage them."
 </pre>
 
+
 <h3>OpenPMIx</h3>
 
 <p>
@@ -621,6 +637,7 @@ PRRTE
 Application
 </pre>
 
+
 <h3>Open MPI</h3>
 
 <p>
@@ -634,6 +651,7 @@ communication structures when the set of processes changes.
 </p>
 
 </section>
+
 
 <section>
 
@@ -703,6 +721,7 @@ responsibilities of the different components easier to understand.
 
 </section>
 
+
 <section>
 
 <h2>DynRM's Modular Architecture</h2>
@@ -716,11 +735,11 @@ The architecture allows different implementations of:
 </p>
 
 <ul>
-<li>Topology modules</li>
-<li>Submission modules</li>
-<li>Policy modules</li>
-<li>System modules</li>
-<li>Model modules</li>
+    <li>Topology modules</li>
+    <li>Submission modules</li>
+    <li>Policy modules</li>
+    <li>System modules</li>
+    <li>Model modules</li>
 </ul>
 
 <pre>
@@ -751,6 +770,7 @@ experimental platform for researching new dynamic scheduling approaches.
 </p>
 
 </section>
+
 
 <section>
 
@@ -813,12 +833,13 @@ At a high level, the optimizer considers three kinds of actions:
 </p>
 
 <ol>
-<li>Removing resources from jobs when beneficial</li>
-<li>Assigning available resources to jobs</li>
-<li>Swapping resources between jobs</li>
+    <li>Removing resources from jobs when beneficial</li>
+    <li>Assigning available resources to jobs</li>
+    <li>Swapping resources between jobs</li>
 </ol>
 
 </section>
+
 
 <section>
 
@@ -880,6 +901,7 @@ individual application run as fast as possible.
 
 </section>
 
+
 <section>
 
 <h2>Does Dynamic Resource Management Actually Help?</h2>
@@ -895,12 +917,12 @@ applications, including:
 </p>
 
 <ul>
-<li>PETSc</li>
-<li>XBraid</li>
-<li>LibPFASST</li>
-<li>DMR-CG</li>
-<li>DMR-Jacobi</li>
-<li>DMR-Laplace</li>
+    <li>PETSc</li>
+    <li>XBraid</li>
+    <li>LibPFASST</li>
+    <li>DMR-CG</li>
+    <li>DMR-Jacobi</li>
+    <li>DMR-Laplace</li>
 </ul>
 
 <p>
@@ -934,6 +956,7 @@ earlier.
 
 </section>
 
+
 <section>
 
 <h2>Dynamic Scheduling Is Not Always Better</h2>
@@ -948,11 +971,11 @@ complexity.
 </p>
 
 <ul>
-<li>New processes may need to be created.</li>
-<li>MPI communication structures must be updated.</li>
-<li>Application data may need to be redistributed.</li>
-<li>The scheduler itself requires computation.</li>
-<li>Different software layers must communicate during reconfiguration.</li>
+    <li>New processes may need to be created.</li>
+    <li>MPI communication structures must be updated.</li>
+    <li>Application data may need to be redistributed.</li>
+    <li>The scheduler itself requires computation.</li>
+    <li>Different software layers must communicate during reconfiguration.</li>
 </ul>
 
 <p>
@@ -1003,6 +1026,7 @@ overall makespan.
 </p>
 
 </section>
+
 
 <section>
 
@@ -1094,7 +1118,7 @@ HPC Resources
 </pre>
 
 <p>
-DPP provides a common abstraction for this cooperation through Process
+DPP provides common abstractions for this cooperation through Process
 Sets and Process Set Operations, while DynRM uses these abstractions to
 perform dynamic scheduling and resource-management decisions.
 </p>
@@ -1107,6 +1131,7 @@ resource managers to cooperate while an application is already running.
 </p>
 
 </section>
+
 
 <section>
 
@@ -1126,8 +1151,8 @@ running.
 <p>
 The paper
 <em>Dynamic Resource Management in HPC Systems using Dynamic Processes with PSets</em>
-presents a complete DPP-based software stack that integrates DynRM,
-PRRTE, OpenPMIx, Open MPI, and dynamically adaptable HPC applications.
+presents a DPP-based software stack that integrates DynRM, PRRTE,
+OpenPMIx, Open MPI, and dynamically adaptable HPC applications.
 </p>
 
 <p>
@@ -1162,18 +1187,37 @@ this question.
 
 </section>
 
+
 <section>
 
 <h2>Reference</h2>
 
 <p>
-Dominik Huber et al.,
+This blog post is based on the following paper:
+</p>
+
+<p>
+<strong>
+Dominik Huber, Keerthi Gaddameedi, Tobias Neckel,
+Hans-Joachim Bungartz, Martin Schulz, Pierre-François Dutot,
+Olivier Richard, Martin Schreiber, Sergio Iserte, and Antonio Pena.
+</strong>
+</p>
+
+<p>
 <em>
 Dynamic Resource Management in HPC Systems using Dynamic Processes with PSets
-</em>.
+</em>
+</p>
+
+<p>
+Technical University of Munich,
+University of Grenoble Alpes / Inria,
+and Barcelona Supercomputing Center.
 </p>
 
 </section>
+
 
 </div>
 </div>
