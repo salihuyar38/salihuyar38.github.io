@@ -1,10 +1,10 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta
         name="google-site-verification"
@@ -26,11 +26,6 @@
     <title>Salih Uyar's Personal Website</title>
 
     <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/linea.css">
-    <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
-    <link rel="stylesheet" type="text/css" href="css/owl.carousel.css">
-    <link rel="stylesheet" type="text/css" href="css/magnific-popup.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="css/animate.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/tooplate-style.css">
@@ -405,8 +400,12 @@
                     <form
                         id="contact-form"
                         method="post"
-                        action="http://127.0.0.1:8000/contact"
+                        action="https://formsubmit.co/salihuyar3836@gmail.com"
                     >
+
+                        <input type="hidden" name="_subject" value="New message from your website">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
 
                         <div class="row">
 
@@ -554,8 +553,6 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/jquery.parallax.js"></script>
 <script src="js/smoothscroll.js"></script>
-<script src="js/jquery.magnific-popup.min.js"></script>
-<script src="js/magnific-popup-options.js"></script>
 <script src="js/wow.min.js"></script>
 <script src="js/custom.js"></script>
 
@@ -573,9 +570,10 @@
             try {
 
                 const response = await fetch(
-                    "http://127.0.0.1:8000/contact",
+                    "https://formsubmit.co/ajax/salihuyar3836@gmail.com",
                     {
                         method: "POST",
+                        headers: { "Accept": "application/json" },
                         body: formData
                     }
                 );
@@ -604,4 +602,3 @@
 </body>
 
 </html>
-```
